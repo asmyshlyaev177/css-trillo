@@ -4,14 +4,16 @@
   "description": "Landing page for natours",
   "main": "index.js",
   "scripts": {
-    "watch:sass": "node-sass sass/main.scss css/style.css -w",
+    "watch:sass": "node-sass sass/main.scss css/style.tmp.css -w",
+    "watch:css": "postcss --replace -w --config postcss.config.js css/style.tmp.css -o css/style.css",
     "devserver": "live-server --host=0.0.0.0",
-    "start": "npm-run-all --parallel devserver watch:sass",
+    "start": "npm-run-all --parallel devserver watch:sass watch:css",
     "compile:sass": "rm -f css/style.comp.css && node-sass sass/main.scss css/style.comp.css",
     "concat:css": "rm -f css/style.concat.css && concat -o css/style.concat.css css/style.comp.css",
-    "prefix:css": "rm -f css/style.prefix.css && postcss --config postcss.config.js css/style.concat.css -o css/style.prefix.css",
+    "prefix:css": "postcss --replace --config postcss.config.js css/style.concat.css -o css/style.prefix.css",
     "compress:css": "rm -f css/style.css && node-sass css/style.prefix.css css/style.css --output-style compressed",
-    "build": "npm-run-all compile:sass concat:css prefix:css compress:css"
+    "build": "npm-run-all compile:sass concat:css prefix:css compress:css",
+    "start-prod": "npm-run-all build start"
   },
   "author": "Jonas",
   "license": "ISC",
@@ -25,6 +27,7 @@
     "postcss-import": "^12.0.1"
   },
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "reset-css": "^4.0.1",
+    "svgxuse": "^1.2.6"
   }
 }
